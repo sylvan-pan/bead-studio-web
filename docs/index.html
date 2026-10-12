@@ -17,6 +17,57 @@
 <nav class="mobile-nav" aria-label="手机操作"><button data-open="size"><svg><use href="#i-settings"/></svg>尺寸</button><button data-open="effects"><svg><use href="#i-grid"/></svg>色彩</button><button id="mobileEdit"><svg><use href="#i-edit"/></svg>编辑照片</button><button data-open="legend"><svg><use href="#i-brush"/></svg>图例</button><button id="mobileExport"><svg><use href="#i-download"/></svg>导出</button></nav><div id="sheetBackdrop" class="sheet-backdrop" hidden></div>
 <input id="photoInput" type="file" accept="image/*" hidden><input id="projectInput" type="file" accept="application/json,.json" hidden><input id="paletteInput" type="file" accept=".json,.csv" hidden>
 <dialog id="photoDialog" class="photo-dialog"><div class="dialog-heading"><div><h2>留下你想拼的那一部分</h2><p class="muted">裁剪、框选主体，再用画笔修补边缘。</p></div><button data-close="photoDialog" class="icon-btn" aria-label="关闭照片编辑">×</button></div><div class="photo-tools"><select id="cropRatio" aria-label="裁剪比例"><option value="free">自由裁剪</option><option value="square">正方形 1:1</option><option value="landscape">横向 4:3</option><option value="portrait">竖向 3:4</option><option value="story">竖向 9:16</option><option value="wide">横向 16:9</option></select><button id="applyCrop" class="soft" disabled>应用裁剪</button><button id="selectSubject" class="quiet">框选主体</button><button id="cutout" class="primary">去除背景</button><button id="photoUndo" class="quiet" disabled>撤销编辑</button></div><div class="photo-tools brush-tools"><button data-photo-tool="crop" class="soft active">框选</button><button data-photo-tool="keep" class="soft">保留主体</button><button data-photo-tool="remove" class="soft">擦除背景</button><label>画笔 <input id="photoBrush" type="range" min="4" max="100" value="28" aria-label="照片修补画笔大小"></label><span class="small">透明区域以棋盘格显示</span></div><div id="photoStage" class="photo-stage"><canvas id="photoCanvas" aria-label="照片裁剪和抠图修补画布"></canvas></div><p id="photoStatus" class="small" role="status">选择比例后拖动框选，再点击应用裁剪；抠图需框住完整主体。</p><div class="dialog-actions"><button data-close="photoDialog" class="quiet">取消</button><button id="applyPhoto" class="primary">应用到图纸</button></div></dialog>
-<dialog id="exportDialog" class="export-dialog"><div class="dialog-heading"><div><h2>把作品带走</h2><p class="muted">完整图纸，每格真实色号，旁边附备料图例。</p></div><button data-close="exportDialog" class="icon-btn" aria-label="关闭导出">×</button></div><p id="exportStats" class="export-stats"></p><label class="field inline">备料余量<span><input id="spare" type="number" min="0" max="100" value="10"> %</span></label><div class="export-options"><button id="downloadSVG" class="primary">整张 SVG · 放大清晰</button><button id="downloadPNG" class="soft">整张 PNG · 分享保存</button><button id="downloadHTML" class="soft">打印图纸 · 可保存 PDF</button><button id="downloadCSV" class="soft">下载用量表</button><button id="exportJSON" class="quiet">保存可继续编辑的作品</button></div><p class="small">手机浏览器会下载到“文件”或下载列表。图纸放大后可查看每格色号；打印尺寸较大时建议使用 SVG。</p><p id="exportStatus" class="small" role="status"></p></dialog>
+<dialog id="exportDialog" class="export-dialog"><div class="dialog-heading"><div><h2>把作品带走</h2><p class="muted">完整图纸，每格真实色号，旁边附备料图例。</p></div><button data-close="exportDialog" class="icon-btn" aria-label="关闭导出">×</button></div><p id="exportStats" class="export-stats"></p><label class="field inline">备料余量<span><input id="spare" type="number" min="0" max="100" value="10"> %</span></label><label class="field">导出内容<select id="exportMode"><option value="single">一张总图纸 · 保留所有颜色</option><option value="split">ZIP 图纸包 · 总图 + 各色号黑白分色图</option></select></label><div id="splitExportOptions" hidden><label class="field">图纸格式<select id="zipFormat"><option value="svg">SVG · 放大清晰，适合打印</option><option value="png">PNG · 方便查看与分享</option></select></label><p class="small">分色图纸保留总图坐标，仅对应色号的格子填黑色；其他格子留白。</p><button id="downloadZIP" class="primary full">下载总图与分色图纸 ZIP</button></div><div class="export-options"><button id="downloadSVG" class="primary">整张 SVG · 放大清晰</button><button id="downloadPNG" class="soft">整张 PNG · 分享保存</button><button id="downloadHTML" class="soft">打印图纸 · 可保存 PDF</button><button id="downloadCSV" class="soft">下载用量表</button><button id="exportJSON" class="quiet">保存可继续编辑的作品</button></div><p class="small">手机浏览器会下载到“文件”或下载列表。图纸放大后可查看每格色号；打印尺寸较大时建议使用 SVG。</p><p id="exportStatus" class="small" role="status"></p></dialog>
 <dialog id="helpDialog" class="help-dialog"><div class="dialog-heading"><h2>从照片到一件手作</h2><button data-close="helpDialog" class="icon-btn" aria-label="关闭帮助">×</button></div><ol><li>选择照片或拖入新图，自动生成预览。</li><li>选择成品规格，按需裁剪、抠图、调整明暗或添加黑边。</li><li>在图例选择色号，直接手修；双指或滚轮缩放，撤销可找回上一笔。</li><li>导出整张图纸与用量表，备齐豆子就能开拼。</li></ol><p>照片只在当前浏览器中处理，不发送到服务器。保存作品为 JSON 可在另一台设备打开继续编辑；不同设备之间不会自动同步。</p><p>复杂背景抠图后请检查边缘，必要时用保留 / 擦除画笔修补。增强无法恢复原图不存在的细节，色卡为社区参考值。</p><p class="small">电脑快捷键：Ctrl / ⌘ + O 导入，S 保存，Z 撤销，Shift + Z 重做。</p><a href="licenses.html" target="_blank" rel="noopener">色卡来源与开源许可</a></dialog>
-<script type="module" src="app.js"></script></body></html>
+<script type="module">
+// Fetch the entry and its complete module graph without using the HTTP cache.
+const base = new URL('./', location.href);
+async function fresh(path) {
+  const response = await fetch(new URL(path, base), {cache: 'no-store'});
+  if (!response.ok) throw new Error('加载失败：' + path);
+  return response.text();
+}
+try {
+  const html = await fresh('index.html');
+  const latest = new DOMParser().parseFromString(html, 'text/html');
+  latest.querySelectorAll('script').forEach(node => node.remove());
+  const css = await fresh('style.css');
+  latest.querySelectorAll('link[rel="stylesheet"]').forEach(node => node.remove());
+  document.head.innerHTML = latest.head.innerHTML;
+  const style = document.createElement('style');
+  style.textContent = css.replace(/url\(\s*(['"]?)([^)'"\s]+)\1\s*\)/g,
+    (_, quote, path) => 'url("' + new URL(path, base).href + '")');
+  document.head.append(style);
+  document.body.innerHTML = latest.body.innerHTML;
+  const names = ['engine.js', 'export.js', 'photo-editor.js', 'convert-worker.js', 'cutout-worker.js', 'app.js'];
+  const sources = new Map(await Promise.all(names.map(async name => [name, await fresh(name)])));
+  const urls = new Map();
+  function moduleURL(name) {
+    if (urls.has(name)) return urls.get(name);
+    let source = sources.get(name);
+    if (source === undefined) throw new Error('缺少程序文件：' + name);
+    source = source.replace(/new URL\(['"]\.\/([^'"]+\.js)['"],\s*import\.meta\.url\)/g,
+      (_, worker) => JSON.stringify(moduleURL(worker)));
+    source = source.replace(/(from\s*['"])\.\/([^'"]+\.js)(['"])/g,
+      (_, prefix, dependency, suffix) => prefix + moduleURL(dependency) + suffix);
+    if (name === 'cutout-worker.js') {
+      source = source.replace("fetch('vendor/opencv.js.gz')",
+        'fetch(' + JSON.stringify(new URL('vendor/opencv.js.gz', base).href) + ',{cache:"no-store"})');
+    }
+    if (name === 'app.js') {
+      source = source.replace('fetch(`assets/${brand}.json`)', 'fetch(`assets/${brand}.json`,{cache:"no-store"})')
+        .replace("fetch('assets/sample.png')", "fetch('assets/sample.png',{cache:'no-store'})");
+    }
+    const url = URL.createObjectURL(new Blob([source], {type: 'text/javascript'}));
+    urls.set(name, url);
+    return url;
+  }
+  window.__beadApp = await import(moduleURL('app.js'));
+} catch (error) {
+  const status = document.getElementById('status');
+  if (status) status.textContent = '无法获取最新网页，请检查网络后重新打开。';
+  else document.body.textContent = '无法获取最新网页，请检查网络后重新打开。';
+  console.error(error);
+}
+</script>
+</body></html>
