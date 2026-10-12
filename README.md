@@ -16,21 +16,6 @@
 
 不同设备之间不会自动同步作品；保存 JSON 后可在另一台设备打开继续手修。
 
-## GitHub Pages 配置
-
-仓库 Settings → Pages → Build and deployment：
-
-1. Source 选择 Deploy from a branch。
-2. Branch 选择 main，文件夹选择 /docs。
-3. 点击 Save，等待 GitHub Pages 完成构建。
-
-站点文件位于 docs，所有资源使用相对路径，可直接放到 GitHub Pages 项目目录。现有 GitHub 连接可以提交文件，但不提供 Pages 开关接口，首次启用需在仓库设置中完成。
-
-## 本地运行与验证
-
-用静态 HTTP 服务器服务 docs 文件夹，例如 `python -m http.server 8795 --directory docs`。Node 版本需支持 ES Modules，运行 `npm test` 检查核心逻辑。
-
-验证记录：10 项转换与导出逻辑测试通过；12 项 Edge 真实浏览器流程通过，涵盖桌面、390×844 手机模拟视口、双指缩放、真实 WASM GrabCut、裁剪、描边、PNG / SVG 下载及作品恢复。未在实体手机、Safari 或 Firefox 实测。
 
 ## 效果边界与浏览器
 
