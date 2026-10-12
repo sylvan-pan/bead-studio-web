@@ -52,7 +52,7 @@ function editPhoto(){if(!source)return;closeSidebar();new PhotoEditor(source,bas
 for(const id of ['importRail','uploadHero','replacePhoto'])$(id).onclick=()=>$('photoInput').click();for(const id of ['sampleHero','sampleRail'])$(id).onclick=sample;
 $('photoInput').onchange=e=>{const file=e.target.files[0];e.target.value='';if(file)loadPhoto(file);};$('openProject').onclick=()=>$('projectInput').click();$('projectInput').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(file)try{await openSaved(file);}catch(error){notice(error.message);}};
 $('saveProject').onclick=saveProject;$('exportJSON').onclick=()=>doExport('json');$('restorePrevious').onclick=restore;$('editPhoto').onclick=editPhoto;$('mobileEdit').onclick=editPhoto;$('exportBtn').onclick=exportOpen;$('mobileExport').onclick=exportOpen;
-for(const [id,kind] of [['downloadSVG','svg'],['downloadPNG','png'],['downloadHTML','html'],['downloadCSV','csv'],['downloadZIP','zip']])$(id).onclick=()=>doExport(kind);
+for(const [id,kind] of [['downloadHTML','html'],['downloadCSV','csv'],['downloadZIP','zip']])$(id).onclick=()=>doExport(kind);
 $('brand').onchange=selectBrand;$('pitch').onchange=estimate;$('preset').onchange=()=>{applyProductPreset();changed();};for(const id of ['width','height'])$(id).addEventListener('input',()=>{$('preset').value='custom';changed();});
 for(const id of ['colors','brightness','contrast','saturation','local','detail','sensitivity','inventory'])$(id).addEventListener('input',changed);for(const id of ['dither','empty','pixel','autoTone','outline','outlineMode','thickness'])$(id).addEventListener('change',changed);
 document.querySelectorAll('[data-width]').forEach(b=>b.onclick=()=>{$('preset').value='custom';$('width').value=b.dataset.width;changed();});document.querySelectorAll('[data-colors]').forEach(b=>b.onclick=()=>{$('colors').value=b.dataset.colors;changed();});
@@ -66,4 +66,4 @@ let dropDepth=0;document.addEventListener('dragenter',e=>{if(!e.dataTransfer.typ
 document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey){if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)&&e.key.toLowerCase()==='z')return;const key=e.key.toLowerCase();if(key==='o'){e.preventDefault();$('photoInput').click();}if(key==='s'&&model.pattern){e.preventDefault();saveProject();}if(key==='z'&&!active){e.preventDefault();if(e.shiftKey?model.redo():model.undo())edited();}}});
 updateActions();selectBrand();setTool('pan');
 
-$('exportMode').onchange=()=>{const split=$('exportMode').value==='split';for(const id of ['downloadSVG','downloadPNG','downloadHTML'])$(id).hidden=split;$('splitExportOptions').hidden=!split;};
+$('downloadSingle').onclick=()=>doExport($('zipFormat').value);
