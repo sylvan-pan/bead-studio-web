@@ -1,0 +1,14 @@
+{
+  "repository": "https://github.com/maxcleme/beadcolors",
+  "commit": "f97ff4283d03cef5cd7e1071a86f5892e0c0c61b",
+  "license": "MIT",
+  "retrieved": "2026-10-11",
+  "notice": "Community color references; verify against physical beads.",
+  "files": [
+    "raw/mard.csv",
+    "raw/perler.csv",
+    "raw/hama.csv",
+    "raw/artkal_s.csv",
+    "raw/artkal_c.csv"
+  ]
+}

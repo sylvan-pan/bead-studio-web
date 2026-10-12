@@ -1,0 +1,7 @@
+{
+  "opencv_version": "4.9.0",
+  "source": "https://docs.opencv.org/4.9.0/opencv.js",
+  "sha256": "4d7b85e2e12ea0bd088f491c311d620a45b53d1489b7f065b4492a230bda243a",
+  "gzip_sha256": "3a0f2adb7db7ba91d8a648daf2dbdd8bd0f0b0e9511ee9e27333cf1c3a409106",
+  "license": "Apache-2.0"
+}
